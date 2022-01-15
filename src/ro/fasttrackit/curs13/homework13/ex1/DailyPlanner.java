@@ -38,9 +38,12 @@ public class DailyPlanner {
         }
     }
 
-    public Map<DaysOfTheWeek, List<String>> endPlanning() {
+    public Map<DaysOfTheWeek, List<String>> endPlanning() throws NoActivitiesForDayException{
         Map<DaysOfTheWeek, List<String>> weekPlan= new HashMap<>();
         for(DaySchedule day : daySchedule) {
+            if(day.activities() == null || day.activities().get(0).trim().equals("")) {
+                throw new NoDayInListException(day.day() + " has no activities");
+            }
             weekPlan.put(day.day(), day.activities());
         }
         return weekPlan;
